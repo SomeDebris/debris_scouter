@@ -15,7 +15,8 @@ do
     read -e -p "Match number?   : " MATCH
     read -e -p "Team number?    : " TEAM
     read -e -p "Alliance color? : " ALLIANCE
-
+    
+    MATCH_START_TIME=$(date +%s)
 
 
     AMPS=0
@@ -35,30 +36,32 @@ do
         echo "Hit 'S' for speaker, 'A' for amp. GO!"
         read -n 1 -e -p "$MATCH> " IN
 
+        DELTA=$(expr $(date +%s) '-' $MATCH_START_TIME)
+
         case $IN in
             s)
                 let SPEAKERS++
                 printf 'Scored 1 SPEAKER (total %d)\n' "$SPEAKERS"
-                printf 'match:%d alliance:"%s" team:%d +speaker:1:%d\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $SPEAKERS >> "$MLOG_FILENAME"
+                printf 'match:%d alliance:"%s" team:%d time:%d +speaker:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
             S)
                 let SPEAKERS--
                 printf 'Remove 1 SPEAKER (total %d)\n' "$SPEAKERS"
-                printf 'match:%d alliance:"%s" team:%d -speaker:1:%d\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $SPEAKERS >> "$MLOG_FILENAME"
+                printf 'match:%d alliance:"%s" team:%d time:%d -speaker:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
             a)
                 let AMPS++
                 printf 'Scored 1 AMP (total %d)\n' $AMPS
-                printf 'match:%d alliance:"%s" team:%d +amp:1:%d\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $AMPS >> "$MLOG_FILENAME"
+                printf 'match:%d alliance:"%s" team:%d time:%d +amp:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $AMPS >> "$MLOG_FILENAME"
                 ;;
             A)
                 let AMPS--
                 printf 'Remove 1 AMP (total %d)\n' $AMPS
-                printf 'match:%d alliance:"%s" team:%d -amp:1:%d\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $AMPS >> "$MLOG_FILENAME"
+                printf 'match:%d alliance:"%s" team:%d time:%d -amp:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $AMPS >> "$MLOG_FILENAME"
                 ;;
             c)
                 if [ $CLIMBED -eq 1 ]; then
@@ -69,13 +72,13 @@ do
                     printf 'Team %d set to CLIMBED\n' "$TEAM"
                 fi
 
-                printf 'match:%d alliance:"%s" team:%d climbed:"%s"\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $CLIMBED >> "$MLOG_FILENAME"
+                printf 'match:%d alliance:"%s" team:%d time:%d climbed:"%s"\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $CLIMBED >> "$MLOG_FILENAME"
                 ;;
             Q)
                 printf 'Match done!.\n'
-                printf 'match:%d alliance:"%s" team:%d speaker:%d amp:%d climbed:"%s" auto:"%s"\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $SPEAKERS $AMPS $CLIMBED $AUTO \
+                printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" auto:"%s"\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS $AMPS $CLIMBED $AUTO \
                     | tee -a "$MLOG_FILENAME"
                 GO=false
                 ;;
