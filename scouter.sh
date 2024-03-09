@@ -61,10 +61,13 @@ do
                     "$MATCH" "$ALLIANCE" "$TEAM" $AMPS >> "$MLOG_FILENAME"
                 ;;
             c)
-                [ $CLIMBED -eq 1 ] && CLIMBED=0 \
-                    && printf 'Team %d set to NOT CLIMBED\n' "$TEAM" \
-                    || CLIMBED=1 \
-                    || printf 'Team %d set to CLIMBED\n' "$TEAM"
+                if [ $CLIMBED -eq 1 ]; then
+                    CLIMBED=0
+                    printf 'Team %d set to NOT CLIMBED\n' "$TEAM"
+                else
+                    CLIMBED=1
+                    printf 'Team %d set to CLIMBED\n' "$TEAM"
+                fi
 
                 printf 'match:%d alliance:"%s" team:%d climbed:"%s"\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $CLIMBED >> "$MLOG_FILENAME"
