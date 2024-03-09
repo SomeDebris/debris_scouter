@@ -76,13 +76,13 @@ do
         case $IN in
             s)
                 let SPEAKERS++
-                printf '%sScored 1 SPEAKER (total %d)%s\n' "${green}" "$SPEAKERS" "${normal}"
+                printf '%sScored%s 1 SPEAKER (total %d)\n' "${green}" "${normal}" "$SPEAKERS"
                 printf 'match:%d alliance:"%s" team:%d time:%d +speaker:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
             S)
                 let SPEAKERS--
-                printf '%sRemove 1 SPEAKER (total %d)%s\n' "${red}" "$SPEAKERS" "${normal}"
+                printf '%sRemove%s 1 SPEAKER (total %d)\n' "${red}" "${normal}" "$SPEAKERS" 
                 printf 'match:%d alliance:"%s" team:%d time:%d -speaker:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
