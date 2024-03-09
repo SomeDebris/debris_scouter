@@ -45,7 +45,7 @@ do
     
     GO=true
     
-    MLOG_FILENAME=$(printf 'M%d_T%d.dat' $MATCH $TEAM)
+    MLOG_FILENAME=$(printf 'M%d_T%d.mlog' $MATCH $TEAM)
     touch "$MLOG_FILENAME"
     
     printf 'START match:%d\n' $MATCH >> "$MLOG_FILENAME"
