@@ -12,16 +12,16 @@ getopt_state=$?
 
 while true
 do
-    read -p "Match number?   : " MATCH
-    read -p "Team number?    : " TEAM
-    read -p "Alliance color? : " ALLIANCE
+    read -e -p "Match number?   : " MATCH
+    read -e -p "Team number?    : " TEAM
+    read -e -p "Alliance color? : " ALLIANCE
 
 
 
     AMPS=0
     SPEAKERS=0
-    CLIMBED=false
-    AUTO=false
+    CLIMBED=0
+    AUTO=0
     
     GO=true
     
@@ -33,28 +33,28 @@ do
     while $GO
     do
         echo "Hit 'S' for speaker, 'A' for amp. GO!"
-        read -n 1 -p "$MATCH > " IN
+        read -n 1 -e -p "$MATCH> " IN
 
         case $IN in
             [Ss])
                 let SPEAKERS++
                 printf 'Scored 1 SPEAKER (total %d)\n' "$SPEAKERS"
-                printf 'match:%d alliance:"%s" team:%d +speaker:1:%d\n' \ 
+                printf 'match:%d alliance:"%s" team:%d +speaker:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
             [Aa])
                 let AMPS++
                 printf 'Scored 1 AMP (total %d)\n' $AMPS
-                printf 'match:%d alliance:"%s" team:%d +amp:1:%d\n' \ 
+                printf 'match:%d alliance:"%s" team:%d +amp:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $AMPS >> "$MLOG_FILENAME"
                 ;;
             [Cc])
-                [ $CLIMBED ] || printf 'Team %d set to CLIMBED\n' "$TEAM" \
-                    || CLIMBED=true \
+                [ $CLIMBED -eq 1 ] && CLIMBED=0 \
                     && printf 'Team %d set to NOT CLIMBED\n' "$TEAM" \
-                    && CLIMBED=false
+                    || CLIMBED=1 \
+                    || printf 'Team %d set to CLIMBED\n' "$TEAM"
 
-                printf 'match:%d alliance:"%s" team:%d climbed:"%s"\n' \ 
+                printf 'match:%d alliance:"%s" team:%d climbed:"%s"\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $CLIMBED >> "$MLOG_FILENAME"
                 ;;
             Q)
