@@ -35,7 +35,6 @@ do
     read -e -p "Team number?    : " TEAM
     read -e -p "Alliance color? : " ALLIANCE
     
-    MATCH_START_TIME=$(date +%s)
 
 
     AMPS=0
@@ -73,7 +72,13 @@ do
 
         DELTA=$(expr $(date +%s) '-' $MATCH_START_TIME)
 
+        MATCH_START_TIME=$(date +%s)
+
         case $IN in
+            [Rr])
+                MATCH_START_TIME=$(date +%s)
+                printf "Reset match start time.\n"
+                ;;
             s)
                 let SPEAKERS++
                 printf '%sScored%s 1 SPEAKER (total %d)\n' "${green}" "${normal}" "$SPEAKERS"
