@@ -65,14 +65,14 @@ do
     ENTRY_PROMPT="${ENTRY_PROMPT_COLOR}${MATCH}${normal}> "
     
 
+    MATCH_START_TIME=$(date +%s)
+
     while $GO
     do
         # echo "Hit 'S' for speaker, 'A' for amp. GO!"
         read -n 1 -e -p "$ENTRY_PROMPT" IN
 
         DELTA=$(expr $(date +%s) '-' $MATCH_START_TIME)
-
-        MATCH_START_TIME=$(date +%s)
 
         case $IN in
             [Rr])
