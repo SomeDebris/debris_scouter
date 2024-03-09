@@ -36,19 +36,31 @@ do
         read -n 1 -e -p "$MATCH> " IN
 
         case $IN in
-            [Ss])
+            s)
                 let SPEAKERS++
                 printf 'Scored 1 SPEAKER (total %d)\n' "$SPEAKERS"
                 printf 'match:%d alliance:"%s" team:%d +speaker:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
-            [Aa])
+            S)
+                let SPEAKERS--
+                printf 'Remove 1 SPEAKER (total %d)\n' "$SPEAKERS"
+                printf 'match:%d alliance:"%s" team:%d -speaker:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $SPEAKERS >> "$MLOG_FILENAME"
+                ;;
+            a)
                 let AMPS++
                 printf 'Scored 1 AMP (total %d)\n' $AMPS
                 printf 'match:%d alliance:"%s" team:%d +amp:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $AMPS >> "$MLOG_FILENAME"
                 ;;
-            [Cc])
+            A)
+                let AMPS--
+                printf 'Remove 1 AMP (total %d)\n' $AMPS
+                printf 'match:%d alliance:"%s" team:%d -amp:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $AMPS >> "$MLOG_FILENAME"
+                ;;
+            c)
                 [ $CLIMBED -eq 1 ] && CLIMBED=0 \
                     && printf 'Team %d set to NOT CLIMBED\n' "$TEAM" \
                     || CLIMBED=1 \
