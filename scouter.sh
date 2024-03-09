@@ -76,20 +76,26 @@ do
         case $IN in
             s)
                 let SPEAKERS++
-                printf 'Scored 1 SPEAKER (total %d)\n' "$SPEAKERS"
+                printf '%sScored 1 SPEAKER (total %d)%s\n' "${green}" "$SPEAKERS" "${normal}"
                 printf 'match:%d alliance:"%s" team:%d time:%d +speaker:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
             S)
                 let SPEAKERS--
-                printf 'Remove 1 SPEAKER (total %d)\n' "$SPEAKERS"
+                printf '%sRemove 1 SPEAKER (total %d)%s\n' "${red}" "$SPEAKERS" "${normal}"
                 printf 'match:%d alliance:"%s" team:%d time:%d -speaker:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS >> "$MLOG_FILENAME"
                 ;;
             a)
                 let AMPS++
-                printf 'Scored 1 AMP (total %d)\n' $AMPS
+                printf '%sScored%s 1 AMP (total %d)\n' "${green}" "${normal}" $AMPS
                 printf 'match:%d alliance:"%s" team:%d time:%d +amp:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $AMPS >> "$MLOG_FILENAME"
+                ;;
+            A)
+                let AMPS--
+                printf '%sRemove%s 1 AMP (total %d)\n' "${red}" "${normal}" $AMPS
+                printf 'match:%d alliance:"%s" team:%d time:%d -amp:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $AMPS >> "$MLOG_FILENAME"
                 ;;
             [Tt])
@@ -102,12 +108,6 @@ do
                 fi
                 printf 'match:%d alliance:"%s" team:%d time:%d trap:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $TRAP >> "$MLOG_FILENAME"
-                ;;
-            A)
-                let AMPS--
-                printf 'Remove 1 AMP (total %d)\n' $AMPS
-                printf 'match:%d alliance:"%s" team:%d time:%d -amp:1:%d\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $AMPS >> "$MLOG_FILENAME"
                 ;;
             c)
                 if [ $CLIMBED -eq 1 ]; then
@@ -123,13 +123,13 @@ do
                 ;;
             Q)
                 printf "${magenta}Match done!${normal}\n"
-                printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" auto:"%s"\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS $AMPS $CLIMBED $AUTO \
+                printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s"\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS $AMPS $CLIMBED $TRAP $AUTO \
                     | tee -a "$MLOG_FILENAME"
                 GO=false
                 ;;
             *)
-                printf 'Invalid input\n'
+                printf "${reverse}Invalid input${normal}\n"
         esac
                 
     done
