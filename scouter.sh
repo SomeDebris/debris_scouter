@@ -10,6 +10,25 @@ getopt_state=$?
     || exit 1 \
     && echo "getopt --test is $getopt_state! Moving forward." 
 
+black=$(tput setaf 0)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+lime_yellow=$(tput setaf 190)
+powder_blue=$(tput setaf 153)
+blue=$(tput setaf 4)
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)
+white=$(tput setaf 7)
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+blink=$(tput blink)
+reverse=$(tput smso)
+underline=$(tput smul)
+end_underline=$(tput rmul)
+
+
 while true
 do
     read -e -p "Match number?   : " MATCH
@@ -20,6 +39,7 @@ do
 
 
     AMPS=0
+    TRAP=0
     SPEAKERS=0
     CLIMBED=0
     AUTO=0
@@ -31,10 +51,25 @@ do
     
     printf 'START match:%d\n' $MATCH >> "$MLOG_FILENAME"
 
+    case "${ALLIANCE}" 
+        [Bb][Ll][Uu][Ee])
+            ENTRY_PROMPT_COLOR="${blue}${bold}"
+            ;;
+        [Rr][Ee][Dd])
+            ENTRY_PROMPT_COLOR="${red}${bold}"
+            ;;
+        *)
+            ENTRY_PROMPT_COLOR="${bold}"
+            ;;
+    esac
+
+    ENTRY_PROMPT="${ENTRY_PROMPT_COLOR}${MATCH}${normal}> "
+    
+
     while $GO
     do
-        echo "Hit 'S' for speaker, 'A' for amp. GO!"
-        read -n 1 -e -p "$MATCH> " IN
+        # echo "Hit 'S' for speaker, 'A' for amp. GO!"
+        read -n 1 -e -p "$ENTRY_PROMPT" IN
 
         DELTA=$(expr $(date +%s) '-' $MATCH_START_TIME)
 
@@ -56,6 +91,17 @@ do
                 printf 'Scored 1 AMP (total %d)\n' $AMPS
                 printf 'match:%d alliance:"%s" team:%d time:%d +amp:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $AMPS >> "$MLOG_FILENAME"
+                ;;
+            [Tt])
+                if [ $TRAP -eq 1 ]; then
+                    TRAP=0
+                    printf "Set to ${bold}${red}NO TRAP${normal}\n"
+                else
+                    TRAP=1
+                    printf 'Set to TRAP\n'
+                fi
+                printf 'match:%d alliance:"%s" team:%d time:%d trap:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $TRAP >> "$MLOG_FILENAME"
                 ;;
             A)
                 let AMPS--
