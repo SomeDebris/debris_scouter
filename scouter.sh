@@ -51,7 +51,7 @@ do
     
     printf 'START match:%d\n' $MATCH >> "$MLOG_FILENAME"
 
-    case "${ALLIANCE}" 
+    case "${ALLIANCE}" in
         [Bb][Ll][Uu][Ee])
             ENTRY_PROMPT_COLOR="${blue}${bold}"
             ;;
@@ -98,7 +98,7 @@ do
                     printf "Set to ${bold}${red}NO TRAP${normal}\n"
                 else
                     TRAP=1
-                    printf 'Set to TRAP\n'
+                    printf "Set to ${bold}${green}TRAP${normal}\n"
                 fi
                 printf 'match:%d alliance:"%s" team:%d time:%d trap:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $TRAP >> "$MLOG_FILENAME"
@@ -112,17 +112,17 @@ do
             c)
                 if [ $CLIMBED -eq 1 ]; then
                     CLIMBED=0
-                    printf 'Team %d set to NOT CLIMBED\n' "$TEAM"
-                else
-                    CLIMBED=1
-                    printf 'Team %d set to CLIMBED\n' "$TEAM"
+                    printf "Team %d set to ${bold}${red}NOT CLIMBED${normal}\n" "$TEAM"
+                else                                                       
+                    CLIMBED=1                                              
+                    printf "Team %d set to ${bold}${green}CLIMBED${normal}\n" "$TEAM"
                 fi
 
                 printf 'match:%d alliance:"%s" team:%d time:%d climbed:"%s"\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $CLIMBED >> "$MLOG_FILENAME"
                 ;;
             Q)
-                printf 'Match done!.\n'
+                printf "${magenta}Match done!${normal}\n"
                 printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" auto:"%s"\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS $AMPS $CLIMBED $AUTO \
                     | tee -a "$MLOG_FILENAME"
