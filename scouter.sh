@@ -140,6 +140,7 @@ do
     COMMENT=''
     read -e -p 'Write a comment (optional) : ' COMMENT
 
+    printf "${cyan}Added final line to '%s':${normal}\n" "$MLOG_FILENAME"
     printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s" comment:"%s"\n' \
         "$MATCH" "$ALLIANCE" "$TEAM" "$DELTA" "$SPEAKERS" "$AMPS" "$CLIMBED" "$TRAP" "$AUTO" "$COMMENT"\
         | tee -a "$MLOG_FILENAME"
