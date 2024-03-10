@@ -1,7 +1,10 @@
 # Debris's Scouter
 
-A simple bash script for tracking the performance of a single FRC robot across a
-match. This script should run on most linux distributions without issue.
+A simple bash script made to be run by scouts during an FRC event. It tracks
+the performance of a single FRC robot across a match. It is intended to feel
+like a hand-held counter device: during matches, it acts on each key press and
+immediately writes the result to a small text file. This script should run on
+most linux distributions without issue.
 
 ## Usage
 
@@ -19,12 +22,15 @@ and will prompt you for input. The match number (colored either red or blue,
 depending on your response to the Alliance color question) is printed to the
 left of the cursor. The script is ready to count game pieces. Type in commands
 to tell the script what is occuring in the match (case sensitive):
-- `R` or `r`: reset the match timer
+
+- `R` or `r`: reset the match timer. Press this button ONCE, right when the
+  match begins.
 - `s`: count a game piece scored in the SPEAKER. Undo with `S`.
 - `a`: count a game piece scored in the AMP. Undo with `A`.
 - `c`: toggle whether the robot has CLIMBED successfully
 - `T` or `t`: toggle whether the robot has scored a game piece in the TRAP
 - `Q`: Declare the match as FINISHED.
+
 All commands sent to the script are immediately printed to a terse log file
 named according to the match number and the team number. 
 
