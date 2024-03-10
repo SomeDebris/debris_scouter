@@ -127,10 +127,6 @@ do
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $CLIMBED >> "$MLOG_FILENAME"
                 ;;
             Q)
-                printf "${magenta}Match done!${normal}\n"
-                printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s"\n' \
-                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $SPEAKERS $AMPS $CLIMBED $TRAP $AUTO \
-                    | tee -a "$MLOG_FILENAME"
                 GO=false
                 ;;
             *)
@@ -139,6 +135,16 @@ do
                 
     done
 
+    printf "${magenta}Match finished${normal}\n"
+    
+    COMMENT=''
+    read -e -p 'Write a comment (optional) : ' COMMENT
+
+    printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s" comment:"%s"\n' \
+        "$MATCH" "$ALLIANCE" "$TEAM" "$DELTA" "$SPEAKERS" "$AMPS" "$CLIMBED" "$TRAP" "$AUTO" "$COMMENT"\
+        | tee -a "$MLOG_FILENAME"
+
+    printf "${bold}-- Next Match! --\n${normal}"
 
 
 done
