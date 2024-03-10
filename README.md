@@ -3,8 +3,8 @@
 A simple bash script made to be run by scouts during an FRC event. It tracks
 the performance of a single FRC robot across a match. It is intended to feel
 like a hand-held counter device: during matches, it acts on each key press and
-immediately writes the result to a small text file. This script should run on
-most linux distributions without issue.
+immediately writes the result to a small text file without any additional
+prompting. This script should run on most linux distributions without issue.
 
 ## Usage
 
