@@ -35,6 +35,7 @@ do
     read -e -p "Team number?    : " TEAM
     read -e -p "Alliance color? : " ALLIANCE
     
+    printf "${magenta}-- Match Starting --${normal}\n"
 
 
     AMPS=0
@@ -48,7 +49,8 @@ do
     MLOG_FILENAME=$(printf 'M%d_T%d.mlog' $MATCH $TEAM)
     touch "$MLOG_FILENAME"
     
-    printf 'START match:%d\n' $MATCH >> "$MLOG_FILENAME"
+    printf 'START match:%d alliance:"%s" team:%d \n' \
+        "$MATCH" "$ALLIANCE" "$TEAM" >> "$MLOG_FILENAME"
 
     case "${ALLIANCE}" in
         [Bb][Ll][Uu][Ee])
@@ -130,12 +132,13 @@ do
                 GO=false
                 ;;
             *)
-                printf "${reverse}Invalid input${normal}\n"
+                printf "${red}Invalid input${normal} (should be in [%s])\n" \
+                    'RrSsAaTtcQ'
         esac
                 
     done
 
-    printf "${magenta}Match finished${normal}\n"
+    printf "${magenta}-- Match finished --${normal}\n"
     
     COMMENT=''
     read -e -p 'Write a comment (optional) : ' COMMENT
