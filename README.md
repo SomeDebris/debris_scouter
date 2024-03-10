@@ -23,8 +23,9 @@ depending on your response to the Alliance color question) is printed to the
 left of the cursor. The script is ready to count game pieces. Type in commands
 to tell the script what is occuring in the match (case sensitive):
 
-- `R` or `r`: reset the match timer. Press this button ONCE, right when the
-  match begins.
+- `R` or `r`: reset the match timer. Press this button ONCE when the match
+  begins so that the script may accurately show when game pieces are scored in
+  auto
 - `s`: count a game piece scored in the SPEAKER. Undo with `S`.
 - `a`: count a game piece scored in the AMP. Undo with `A`.
 - `c`: toggle whether the robot has CLIMBED successfully
