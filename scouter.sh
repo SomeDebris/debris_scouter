@@ -171,8 +171,8 @@ do
     read -e -p 'Write a comment (optional) : ' COMMENT
 
     printf "${cyan}Added final line to '%s':${normal}\n" "$MLOG_FILENAME"
-    printf 'match:%d alliance:"%s" team:%d time:%d pickups:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s" comment:"%s"\n' \
-        "$MATCH" "$ALLIANCE" "$TEAM" "$DELTA" "$PICKUPS" "$SPEAKERS" "$AMPS" "$CLIMBED" "$TRAP" "$AUTO" "$COMMENT" \
+    printf 'match:%d alliance:"%s" team:%d time:%d pickups:%d speaker:%d amp:%d ferried:%d climbed:"%s" trap:%d auto:"%s" comment:"%s"\n' \
+        "$MATCH" "$ALLIANCE" "$TEAM" "$DELTA" "$PICKUPS" "$SPEAKERS" "$AMPS" "$FERRIED" "$CLIMBED" "$TRAP" "$AUTO" "$COMMENT" \
         | tee -a "$MLOG_FILENAME"
 
     printf "${bold}-- Next Match! --\n${normal}"
