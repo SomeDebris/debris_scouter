@@ -87,21 +87,25 @@ do
                 printf '%sFerried%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$FERRIED"
                 printf 'match:%d alliance:"%s" team:%d time:%d +ferried:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $FERRIED >> "$MLOG_FILENAME"
+                ;;
             F)
                 let FERRIED--
-                printf '%sUn-ferried%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$FERRIED"
+                printf '%sUn-ferried%s 1 NOTE (total %d)\n' "${red}" "${normal}" "$FERRIED"
                 printf 'match:%d alliance:"%s" team:%d time:%d -ferried:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $FERRIED >> "$MLOG_FILENAME"
+                ;;
             p)
                 let PICKUPS++
                 printf '%sPicked up%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
                 printf 'match:%d alliance:"%s" team:%d time:%d +pickups:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $PICKUPS >> "$MLOG_FILENAME"
+                ;;
             P)
                 let PICKUPS--
-                printf '%sUndo pickup%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
+                printf '%sUndo pickup%s 1 NOTE (total %d)\n' "${red}" "${normal}" "$PICKUPS"
                 printf 'match:%d alliance:"%s" team:%d time:%d -pickups:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $PICKUPS >> "$MLOG_FILENAME"
+                ;;
             [Rr])
                 printf 'RESET TIMER @ match:%d alliance:"%s" team:%d time:%d start_time_previous:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $MATCH_START_TIME >> "$MLOG_FILENAME"
