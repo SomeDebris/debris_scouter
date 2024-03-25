@@ -29,6 +29,9 @@ underline=$(tput smul)
 end_underline=$(tput rmul)
 
 
+read -e -p "What is your NAME? (optional) : " NAME
+
+
 while true
 do
     read -e -p "Match number?   : " MATCH
@@ -43,14 +46,15 @@ do
     SPEAKERS=0
     CLIMBED=0
     AUTO=0
+    PICKUPS=0
     
     GO=true
     
     MLOG_FILENAME=$(printf 'M%d_T%d.mlog' $MATCH $TEAM)
     touch "$MLOG_FILENAME"
     
-    printf 'START match:%d alliance:"%s" team:%d \n' \
-        "$MATCH" "$ALLIANCE" "$TEAM" >> "$MLOG_FILENAME"
+    printf 'START match:%d alliance:"%s" team:%d scouter_name:"%s"\n' \
+        "$MATCH" "$ALLIANCE" "$TEAM" "$NAME" >> "$MLOG_FILENAME"
 
     case "${ALLIANCE}" in
         [Bb][Ll][Uu][Ee])
@@ -77,7 +81,19 @@ do
         DELTA=$(expr $(date +%s) '-' $MATCH_START_TIME)
 
         case $IN in
+            p)
+                let PICKUPS++
+                printf '%sPicked up%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
+                printf 'match:%d alliance:"%s" team:%d time:%d +pickups:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $PICKUPS >> "$MLOG_FILENAME"
+            P)
+                let PICKUPS--
+                printf '%sUndo pickup %s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
+                printf 'match:%d alliance:"%s" team:%d time:%d -pickups:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $PICKUPS >> "$MLOG_FILENAME"
             [Rr])
+                printf 'RESET TIMER @ match:%d alliance:"%s" team:%d time:%d start_time_previous:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $MATCH_START_TIME >> "$MLOG_FILENAME"
                 MATCH_START_TIME=$(date +%s)
                 printf "Reset match start time.\n"
                 ;;
@@ -133,7 +149,7 @@ do
                 ;;
             *)
                 printf "${red}Invalid input${normal} (should be in [%s])\n" \
-                    'RrSsAaTtcQ'
+                    'PpRrSsAaTtcQ'
         esac
                 
     done
@@ -144,8 +160,8 @@ do
     read -e -p 'Write a comment (optional) : ' COMMENT
 
     printf "${cyan}Added final line to '%s':${normal}\n" "$MLOG_FILENAME"
-    printf 'match:%d alliance:"%s" team:%d time:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s" comment:"%s"\n' \
-        "$MATCH" "$ALLIANCE" "$TEAM" "$DELTA" "$SPEAKERS" "$AMPS" "$CLIMBED" "$TRAP" "$AUTO" "$COMMENT"\
+    printf 'match:%d alliance:"%s" team:%d time:%d pickups:%d speaker:%d amp:%d climbed:"%s" trap:%d auto:"%s" comment:"%s"\n' \
+        "$MATCH" "$ALLIANCE" "$TEAM" "$DELTA" "$PICKUPS" "$SPEAKERS" "$AMPS" "$CLIMBED" "$TRAP" "$AUTO" "$COMMENT" \
         | tee -a "$MLOG_FILENAME"
 
     printf "${bold}-- Next Match! --\n${normal}"
