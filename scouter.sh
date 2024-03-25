@@ -47,6 +47,7 @@ do
     CLIMBED=0
     AUTO=0
     PICKUPS=0
+    FERRIED=0
     
     GO=true
     
@@ -81,6 +82,16 @@ do
         DELTA=$(expr $(date +%s) '-' $MATCH_START_TIME)
 
         case $IN in
+            f)
+                let FERRIED++
+                printf '%sFerried%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$FERRIED"
+                printf 'match:%d alliance:"%s" team:%d time:%d +ferried:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $FERRIED >> "$MLOG_FILENAME"
+            F)
+                let FERRIED--
+                printf '%sUn-ferried%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$FERRIED"
+                printf 'match:%d alliance:"%s" team:%d time:%d -ferried:1:%d\n' \
+                    "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $FERRIED >> "$MLOG_FILENAME"
             p)
                 let PICKUPS++
                 printf '%sPicked up%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
@@ -88,7 +99,7 @@ do
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $PICKUPS >> "$MLOG_FILENAME"
             P)
                 let PICKUPS--
-                printf '%sUndo pickup %s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
+                printf '%sUndo pickup%s 1 NOTE (total %d)\n' "${green}" "${normal}" "$PICKUPS"
                 printf 'match:%d alliance:"%s" team:%d time:%d -pickups:1:%d\n' \
                     "$MATCH" "$ALLIANCE" "$TEAM" $DELTA $PICKUPS >> "$MLOG_FILENAME"
             [Rr])
@@ -149,7 +160,7 @@ do
                 ;;
             *)
                 printf "${red}Invalid input${normal} (should be in [%s])\n" \
-                    'PpRrSsAaTtcQ'
+                    'RrSsAaTtcQPpFf'
         esac
                 
     done
